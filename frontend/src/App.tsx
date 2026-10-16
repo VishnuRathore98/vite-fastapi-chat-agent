@@ -1,11 +1,10 @@
 import { Box, Center, Flex, Stack } from "@chakra-ui/react";
+import Sidebar from "@/components/Sidebar";
 
 function App() {
   return (
     <Flex minH={"100dvh"}>
-      <Box alignContent={"center"} bg={"bg.muted"} w={"260px"}>
-        <Center>Sidebar</Center>
-      </Box>
+      <Sidebar />
       <Box>
         <Stack h={"full"}>
           <Box>Top</Box>
