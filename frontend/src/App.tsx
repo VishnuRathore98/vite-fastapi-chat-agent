@@ -1,5 +1,6 @@
 import { Box, Center, Flex, Stack } from "@chakra-ui/react";
 import Sidebar from "@/components/Sidebar";
+import { MenuButton } from "./components/MenuButton";
 
 function App() {
   return (
@@ -7,7 +8,9 @@ function App() {
       <Sidebar />
       <Box>
         <Stack h={"full"}>
-          <Box>Top</Box>
+          <Box>
+            <MenuButton />
+          </Box>
           <Center flex={"1"}>Middle</Center>
           <Box pb={"2"}>Bottom</Box>
         </Stack>

@@ -100,7 +100,7 @@ export default function Sidebar() {
             <Circle size={"6"} bg={"bg"} borderWidth={"1px"}>
               <GrUpgrade />
             </Circle>
-            <Stack gap={"0"}>
+            <Stack gap={"0"} fontWeight={"medium"}>
               <Text fontSize={"sm"}>Upgrade plan</Text>
               <Text fontSize={"xs"} color={"fg.muted"}>
                 More access to the best features
