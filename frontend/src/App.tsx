@@ -1,17 +1,27 @@
 import { Box, Center, Flex, Stack } from "@chakra-ui/react";
 import Sidebar from "@/components/Sidebar";
 import { MenuButton } from "./components/MenuButton";
+import { Avatar } from "./components/ui/avatar";
 
 function App() {
   return (
     <Flex minH={"100dvh"}>
       <Sidebar />
-      <Box>
+      <Box flex={"1"}>
         <Stack h={"full"}>
-          <Box>
+          <Flex justify={"space-between"} align={"center"} p={"2"}>
             <MenuButton />
-          </Box>
+            <Avatar
+              name='Vishnu'
+              size={"sm"}
+              colorPalette={"teal"}
+              variant={"solid"}
+              mr={"3"}
+            />
+          </Flex>
+
           <Center flex={"1"}>Middle</Center>
+
           <Box pb={"2"}>Bottom</Box>
         </Stack>
       </Box>

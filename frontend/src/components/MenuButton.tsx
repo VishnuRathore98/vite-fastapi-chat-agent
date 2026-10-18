@@ -1,15 +1,15 @@
-import {
-  Button,
-  Circle,
-  HStack,
-  Menu,
-  Portal,
-  Stack,
-  Text,
-  Box,
-} from "@chakra-ui/react";
-import { BsStars } from "react-icons/bs";
+import { Button, Circle, HStack, Stack, Text, Box } from "@chakra-ui/react";
+import { BsStars, BsCheckCircleFill, BsListTask } from "react-icons/bs";
 import { IoIosArrowDown } from "react-icons/io";
+import { Switch } from "./ui/switch";
+import { FaMagento } from "react-icons/fa6";
+import {
+  MenuRoot,
+  MenuTrigger,
+  MenuContent,
+  MenuItem,
+  MenuSeparator,
+} from "./ui/menu";
 interface MenuItemDetailProps {
   icon: React.ReactElement;
   title: string;
@@ -24,14 +24,15 @@ function MenuItemDetail(props: MenuItemDetailProps) {
       borderRadius={"lg"}
       px={"2"}
       //   h={"10"}
-      _hover={{
-        layerStyle: "fill.muted",
-        textDecor: "none",
-      }}>
+      // _hover={{
+      //   layerStyle: "fill.muted",
+      //   textDecor: "none",
+      // }}
+      w={"full"}>
       <Circle size={"8"} bg={"bg.subtle"}>
         {icon}
       </Circle>
-      <Stack gap={"0"}>
+      <Stack gap={"0"} flex={"1"}>
         <Text>{title}</Text>
         <Text fontSize={"xs"} color={"fg.muted"}>
           {description}
@@ -44,32 +45,47 @@ function MenuItemDetail(props: MenuItemDetailProps) {
 
 export const MenuButton = () => {
   return (
-    <Menu.Root>
-      <Menu.Trigger asChild>
+    <MenuRoot>
+      <MenuTrigger asChild>
         <Button
           variant='ghost'
-          fontSize='lg'
+          fontSize='md'
           fontWeight={"bold"}
           color={"fg.muted"}>
           Agent Viee <IoIosArrowDown />
         </Button>
-      </Menu.Trigger>
-      <Portal>
-        <Menu.Positioner>
-          <Menu.Content>
-            <MenuItemDetail
-              icon={<BsStars />}
-              title='Viee Plus'
-              description='Our smartest and most advanced'
-              element={
-                <Button variant={"outline"} size={"xs"} borderRadius={"full"}>
-                  Upgrade
-                </Button>
-              }
-            />
-          </Menu.Content>
-        </Menu.Positioner>
-      </Portal>
-    </Menu.Root>
+      </MenuTrigger>
+
+      <MenuContent minW={"320px"} borderRadius={"2xl"}>
+        <MenuItem value='viee-plus'>
+          <MenuItemDetail
+            icon={<BsStars />}
+            title='Viee Plus'
+            description='Our smartest and most advanced'
+            element={
+              <Button variant={"outline"} size={"xs"} borderRadius={"full"}>
+                Upgrade
+              </Button>
+            }
+          />
+        </MenuItem>
+        <MenuItem value='viee-regular'>
+          <MenuItemDetail
+            icon={<FaMagento />}
+            title='Viee Regular'
+            description='For regular daily tasks'
+            element={<BsCheckCircleFill size={"18"} />}
+          />
+        </MenuItem>
+        <MenuSeparator />
+        <MenuItem value='temp-chat' py={"2"}>
+          <MenuItemDetail
+            icon={<BsListTask />}
+            title='Temporary Tasks'
+            element={<Switch />}
+          />
+        </MenuItem>
+      </MenuContent>
+    </MenuRoot>
   );
 };
