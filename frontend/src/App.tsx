@@ -1,6 +1,7 @@
 import { Box, Center, Flex, Stack } from "@chakra-ui/react";
 import Sidebar from "@/components/Sidebar";
 import { MenuButton } from "./components/MenuButton";
+import InputArea from "./components/InputArea";
 import { Avatar } from "./components/ui/avatar";
 
 function App() {
@@ -20,7 +21,9 @@ function App() {
             />
           </Flex>
 
-          <Center flex={"1"}>Middle</Center>
+          <Center flex={"1"}>
+            <InputArea />
+          </Center>
 
           <Box pb={"2"}>Bottom</Box>
         </Stack>
