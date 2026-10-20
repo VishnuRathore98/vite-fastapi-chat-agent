@@ -25,7 +25,11 @@ function App() {
             <InputArea />
           </Center>
 
-          <Box pb={"2"}>Bottom</Box>
+          <Box pb={"2"}>
+            <Center fontSize={"xs"} color={"fg.muted"}>
+              AI can make mistakes. Check important info.
+            </Center>
+          </Box>
         </Stack>
       </Box>
     </Flex>
