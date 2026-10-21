@@ -1,17 +1,55 @@
-import { Box, Center, Flex, Stack } from "@chakra-ui/react";
+import { Box, Center, Flex, IconButton, Stack } from "@chakra-ui/react";
 import Sidebar from "@/components/Sidebar";
 import { MenuButton } from "./components/MenuButton";
 import InputArea from "./components/InputArea";
 import { Avatar } from "./components/ui/avatar";
+import { useState } from "react";
+import { Tooltip } from "./components/ui/tooltip";
+import { FiSidebar } from "react-icons/fi";
+import { FaRegEdit } from "react-icons/fa";
 
 function App() {
+  const [sidebarVisible, setSidebarVisible] = useState(true);
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible);
+  };
   return (
     <Flex minH={"100dvh"}>
-      <Sidebar />
+      {sidebarVisible ? <Sidebar toggleSidebar={toggleSidebar} /> : ""}
       <Box flex={"1"}>
         <Stack h={"full"}>
           <Flex justify={"space-between"} align={"center"} p={"2"}>
-            <MenuButton />
+            {sidebarVisible ? (
+              <MenuButton />
+            ) : (
+              <Flex justify={"space-between"}>
+                <Tooltip content={"Open Sidebar"} showArrow>
+                  <IconButton
+                    variant={"ghost"}
+                    _hover={{
+                      layerStyle: "fill.muted",
+                      textDecor: "none",
+                    }}
+                    borderRadius={"xl"}
+                    onClick={toggleSidebar}>
+                    <FiSidebar color={"fg.muted"} />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip content={"New Chat"} showArrow>
+                  <IconButton
+                    variant={"ghost"}
+                    _hover={{
+                      layerStyle: "fill.muted",
+                      textDecor: "none",
+                    }}
+                    borderRadius={"xl"}>
+                    <FaRegEdit color={"fg.muted"} />
+                  </IconButton>
+                </Tooltip>
+                <MenuButton />
+              </Flex>
+            )}
+
             <Avatar
               name='Vishnu'
               size={"sm"}

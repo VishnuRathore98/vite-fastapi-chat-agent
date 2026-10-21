@@ -14,7 +14,13 @@ import { Tooltip } from "./ui/tooltip";
 import { FaMagento } from "react-icons/fa6";
 import { TbAiAgents } from "react-icons/tb";
 import { GrUpgrade } from "react-icons/gr";
-export default function Sidebar() {
+
+interface SidebarProps {
+  toggleSidebar?: React.MouseEventHandler;
+}
+
+export default function Sidebar(props: SidebarProps) {
+  const { toggleSidebar } = props;
   return (
     <Box bg={"bg.muted"} w={"260px"}>
       <Stack px={"3"} py={"2"} h={"full"}>
@@ -30,7 +36,8 @@ export default function Sidebar() {
                 layerStyle: "fill.muted",
                 textDecor: "none",
               }}
-              borderRadius={"xl"}>
+              borderRadius={"xl"}
+              onClick={toggleSidebar}>
               <FiSidebar color={"fg.muted"} />
             </IconButton>
           </Tooltip>
