@@ -23,6 +23,7 @@ import {
   FaSurprise,
 } from "react-icons/fa";
 import { BsBarChart } from "react-icons/bs";
+import { useState, type SetStateAction } from "react";
 interface PromptButtonProps {
   icon?: React.ReactElement;
   desc?: string;
@@ -33,19 +34,23 @@ function PromptButton(props: PromptButtonProps) {
   return (
     <Button variant={"outline"} borderRadius={"full"}>
       {icon}
-      <Span color={"fg.subtle"}>{desc}</Span>
+      <Span color={"fg"}>{desc}</Span>
     </Button>
   );
 }
 
 export default function InputArea() {
+  const [inputValue, setInputValue] = useState("");
+  const inputHandler = (e: { target: { value: SetStateAction<string> } }) => {
+    setInputValue(e.target.value);
+  };
+
   return (
     <VStack gap={"6"}>
       <Heading size={"3xl"}>What can I help you with?</Heading>
       <Center>
         <InputGroup
           minW={"768px"}
-          color={"fg.subtle"}
           startElement={
             <FileUploadRoot>
               <FileUploadTrigger asChild>
@@ -55,15 +60,20 @@ export default function InputArea() {
             </FileUploadRoot>
           }
           endElement={
-            <IconButton fontSize={"2xl"} size={"sm"} borderRadius={"full"}>
+            <IconButton
+              fontSize={"2xl"}
+              size={"sm"}
+              borderRadius={"full"}
+              disabled={inputValue.trim() === ""}>
               <FaArrowUp />
             </IconButton>
           }>
           <Input
             placeholder='Message Viee'
             borderRadius={"full"}
-            variant={"subtle"}
             size={"lg"}
+            value={inputValue}
+            onChange={inputHandler}
           />
         </InputGroup>
       </Center>

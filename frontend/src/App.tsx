@@ -16,7 +16,7 @@ function App() {
   return (
     <Flex minH={"100dvh"}>
       {sidebarVisible ? <Sidebar toggleSidebar={toggleSidebar} /> : ""}
-      <Box flex={"1"}>
+      <Box flex={"1"} transition={"ease-in-out"}>
         <Stack h={"full"}>
           <Flex justify={"space-between"} align={"center"} p={"2"}>
             {sidebarVisible ? (
