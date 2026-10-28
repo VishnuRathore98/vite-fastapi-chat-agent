@@ -8,14 +8,21 @@ import { Tooltip } from "./components/ui/tooltip";
 import { FiSidebar } from "react-icons/fi";
 import { FaRegEdit } from "react-icons/fa";
 import Login from "./pages/Login";
+import { Routes, Route } from "react-router-dom";
+import Signup from "./pages/Signup";
 
-function App() {
-  const [sidebarVisible, setSidebarVisible] = useState(true);
-  const toggleSidebar = () => {
-    setSidebarVisible(!sidebarVisible);
-  };
+export default function App() {
+  return (
+    <Routes>
+      <Route path='/login' element={<Login />} />
+      <Route path='/signup' element={<Signup />} />
+    </Routes>
+  );
 
-  return <Login />;
+  // const [sidebarVisible, setSidebarVisible] = useState(true);
+  // const toggleSidebar = () => {
+  //   setSidebarVisible(!sidebarVisible);
+  // };
 
   // return (
   //   <Flex minH={"100dvh"}>
@@ -77,5 +84,3 @@ function App() {
   //   </Flex>
   // );
 }
-
-export default App;

@@ -1,6 +1,10 @@
 from fastapi import FastAPI
 
-app = FastAPI()
+from .routers.auth_routes import auth_router
+
+app = FastAPI(root_path="/api/v1")
+
+app.include_router(auth_router)
 
 
 @app.get("/")

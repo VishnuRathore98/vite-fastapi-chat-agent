@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import {
   Button,
   Center,
@@ -7,6 +8,7 @@ import {
   Field,
   Input,
   Link,
+  Text,
 } from "@chakra-ui/react";
 
 export default function Login() {
@@ -39,6 +41,10 @@ export default function Login() {
           </Field.Root>
           <Button type='submit'>Login</Button>
         </form>
+        <Text>Don't have an account?</Text>
+        <Link>
+          <RouterLink to={"/signup"}>Sign-Up</RouterLink>
+        </Link>
       </Stack>
     </Center>
   );
