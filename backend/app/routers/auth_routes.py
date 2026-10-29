@@ -19,5 +19,6 @@ async def login(body: LoginRequestSchema) -> LoginResponseSchema:
 
 @auth_router.post(path="/signup", status_code=status.HTTP_201_CREATED)
 async def signup(body: SignupRequestSchema) -> SignupResponseSchema:
+
     logger.info(body.model_dump_json())
     return SignupResponseSchema(message="SignUp Successful!")

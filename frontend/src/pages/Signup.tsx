@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import {
   Button,
   Center,
@@ -10,21 +10,46 @@ import {
   Text,
   Link,
 } from "@chakra-ui/react";
+import { signup } from "@/api/auth";
 
 export default function Signup() {
+  const navigate = useNavigate();
   const [fullname, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(
-      "\nFull name:",
-      fullname,
-      "\nEmail:",
-      email,
-      "\nPassword:",
-      password,
-    );
+    setError("");
+    setLoading(true);
+
+    try {
+      await signup({
+        full_name: fullname,
+        email: email,
+        password: password,
+      });
+      navigate("/login");
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+        // console.log(err);
+      } else {
+        setError("Something went wrong");
+      }
+    } finally {
+      setLoading(false);
+    }
+    // console.log(
+    //   "\nFull name:",
+    //   fullname,
+    //   "\nEmail:",
+    //   email,
+    //   "\nPassword:",
+    //   password,
+    // );
   }
   return (
     <Center>
@@ -55,7 +80,10 @@ export default function Signup() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </Field.Root>
-          <Button type='submit'>Sign-Up</Button>
+          <Button type='submit' loading={loading}>
+            Sign-Up
+          </Button>
+          {error && <Text color={"red.500"}>{error}</Text>}
         </form>
         <Text>Already have an account?</Text>
         <Link>

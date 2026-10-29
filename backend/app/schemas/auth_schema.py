@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 
 
 class LoginRequestSchema(BaseModel):
@@ -11,9 +11,10 @@ class LoginResponseSchema(BaseModel):
 
 
 class SignupRequestSchema(BaseModel):
-    fullname: str
+    full_name: str = Field(min_length=5)
+    contact_number: str | None = None
     email: EmailStr
-    password: str
+    password: str = Field(min_length=8, max_length=16)
 
 
 class SignupResponseSchema(BaseModel):
