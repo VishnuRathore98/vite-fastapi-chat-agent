@@ -1,23 +1,37 @@
 const API_URL= import.meta.env.VITE_API_URL
 
-export type SignupRequest = {
+type SignupRequest = {
 full_name:string
 contact_number?:string
 email: string
 password:string
 }
 
-export type SigninRequest = {
+type SigninRequest = {
 email:string
 password:string
 }
 
-export type SignupResponse = {
+type SignupResponse = {
 message: string
 }
 
-export type SigninResponse = {
+type SigninResponse = {
 message:string
+}
+
+type ValidationErrorItem = {
+
+    type: string
+    loc: string[]
+    msg: string
+    input?: Record<string,unknown>
+    ctx?: object
+
+}
+
+type ErrorResponse = {
+    detail: string | ValidationErrorItem[]
 }
 
 export async function signup(data: SignupRequest):Promise<SignupResponse>{
@@ -31,9 +45,13 @@ export async function signup(data: SignupRequest):Promise<SignupResponse>{
         }
     )
     if (!response.ok){
-        const error = await response.json()
-        console.log("response: ",error.detail[0].msg)
-        throw new Error(error.detail || "Signup Failed! Try again later.")
+        const error: ErrorResponse = await response.json()
+        // console.log("response: ",error)
+        if(typeof error.detail === 'string'){
+            throw new Error(error.detail || "Signup Failed! Try again later.")
+        }else{
+            throw new Error(error.detail.map((e)=>e.msg).join("\n"))
+        }
     }
     
     return response.json()

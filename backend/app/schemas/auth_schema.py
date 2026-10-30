@@ -8,6 +8,8 @@ class LoginRequestSchema(BaseModel):
 
 class LoginResponseSchema(BaseModel):
     message: str
+    access_token: str
+    refresh_token: str
 
 
 class SignupRequestSchema(BaseModel):

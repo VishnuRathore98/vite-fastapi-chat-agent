@@ -10,6 +10,7 @@ import {
   Text,
   Link,
 } from "@chakra-ui/react";
+import { toaster } from "@/components/ui/toaster";
 import { signup } from "@/api/auth";
 
 export default function Signup() {
@@ -31,8 +32,18 @@ export default function Signup() {
         email: email,
         password: password,
       });
+      toaster.create({
+        title: "Account created",
+        description: "You can log in now.",
+        type: "success",
+      });
       navigate("/login");
     } catch (err) {
+      toaster.create({
+        title: "Signup failed",
+        description: "Account creation failed, try again",
+        type: "error",
+      });
       if (err instanceof Error) {
         setError(err.message);
         // console.log(err);
@@ -83,7 +94,11 @@ export default function Signup() {
           <Button type='submit' loading={loading}>
             Sign-Up
           </Button>
-          {error && <Text color={"red.500"}>{error}</Text>}
+          {error && (
+            <Text color={"red.500"} whiteSpace={"pre-line"}>
+              {error}
+            </Text>
+          )}
         </form>
         <Text>Already have an account?</Text>
         <Link>
