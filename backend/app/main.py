@@ -5,6 +5,7 @@ from .routers.auth_routes import auth_router
 
 app = FastAPI(root_path="/api/v1")
 
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],
