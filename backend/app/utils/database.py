@@ -6,7 +6,8 @@ from sqlalchemy.orm.session import Session
 
 from .config import settings
 
-engine: Engine = create_engine(url=settings.DATABASE_URL, echo=True)
+# engine: Engine = create_engine(url=settings.DATABASE_URL, echo=True)
+engine: Engine = create_engine(url=settings.DATABASE_URL)
 SessionLocal: sqlalchemy.orm.session.sessionmaker[Session] = sessionmaker(bind=engine)
 
 

@@ -1,3 +1,8 @@
+from app.schemas.user_schema import UserSchema
+from app.schemas.common_schema import APIResponse
+from app.models.auth_model import UserModel
+from uuid import UUID
+from pydantic import EmailStr
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
@@ -33,4 +38,38 @@ async def signup(
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
             detail=f"{e}, please check your details, try again, user not created!",
+        )
+
+
+@auth_router.get(path="/users", status_code=status.HTTP_200_OK)
+async def get_user(
+    email: EmailStr | None = None,
+    user_id: UUID | None = None,
+    db: Session = Depends(get_db),
+) -> APIResponse:
+    try:
+        service = UserService(db)
+        if email is not None:
+            logger.info(email)
+            user = service.get_user(email=email)
+            return APIResponse(
+                success=True,
+                message="User fetched successfully!",
+                data=[user.model_dump()],
+            )
+        if user_id is not None:
+            logger.info(user_id)
+            user = service.get_user(user_id=user_id)
+            return user
+        else:
+            users: list[UserSchema] = service.get_all_users()
+            return APIResponse(
+                success=True,
+                message="All users fetched successfully!",
+                data=users,
+            )
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User does not exits! error:{e}",
         )

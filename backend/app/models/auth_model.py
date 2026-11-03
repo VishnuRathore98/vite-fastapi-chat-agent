@@ -11,9 +11,10 @@ class Base(DeclarativeBase):
 
 class UserModel(Base):
     __tablename__ = "user_account"
-    id: Mapped[UUID] = mapped_column(default=uuid4, primary_key=True)
+    user_id: Mapped[UUID] = mapped_column(default=uuid4, primary_key=True)
     full_name: Mapped[str] = mapped_column(String(100), nullable=False)
     email: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
+    contact_number: Mapped[str] = mapped_column(String(15))
     hashed_password: Mapped[str] = mapped_column(String(255), nullable=False)
     last_login: Mapped[datetime | None] = mapped_column(
         DateTime(timezone=True), default=None
