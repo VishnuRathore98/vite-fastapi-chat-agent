@@ -1,9 +1,7 @@
-from app.schemas.user_schema import UserSchema
-from app.schemas.common_schema import APIResponse
-from app.models.auth_model import UserModel
 from uuid import UUID
+
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 from pydantic import EmailStr
-from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.schemas.auth_schema import (
@@ -12,6 +10,8 @@ from app.schemas.auth_schema import (
     SignupRequestSchema,
     SignupResponseSchema,
 )
+from app.schemas.common_schema import APIResponse
+from app.schemas.user_schema import UserSchema
 from app.services.auth_service import UserService
 from app.utils.database import get_db
 from app.utils.log_utils import logger
@@ -20,9 +20,31 @@ auth_router = APIRouter(prefix="/auth", tags=["Auth"])
 
 
 @auth_router.post(path="/login", status_code=status.HTTP_200_OK)
-async def login(body: LoginRequestSchema) -> LoginResponseSchema:
+async def login(
+    body: LoginRequestSchema,
+    db: Session = Depends(get_db),
+    response: Response = None,
+) -> APIResponse:
     logger.info(body.model_dump_json())
-    return LoginResponseSchema(message="Login Successful!")
+    try:
+        service = UserService(db)
+        res = service.login_user(body)
+        return APIResponse(
+            success=True,
+            message="Login Successful!",
+            data=LoginResponseSchema(
+                user_id=res.user_id,
+                access_token=res.access_token,
+                refresh_token=res.refresh_token,
+            ),
+        )
+    except Exception as e:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return APIResponse(
+            success=False,
+            message=f"User login failed! {e}",
+            data=[],
+        )
 
 
 @auth_router.post(path="/signup", status_code=status.HTTP_201_CREATED)

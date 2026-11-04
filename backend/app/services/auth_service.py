@@ -1,3 +1,6 @@
+from app.utils.security import verify_password
+from app.schemas.auth_schema import LoginResponseSchema
+from app.schemas.auth_schema import LoginRequestSchema
 from uuid import UUID
 
 from pydantic import EmailStr
@@ -52,4 +55,13 @@ class UserService:
             return users_list
         except Exception as e:
             logger.error(e)
+            return False
+
+    def login_user(self, body: LoginRequestSchema) -> LoginResponseSchema|bool:
+        repo = UserRepository(self.db)
+        user: UserModel = repo.get_user_by_email(email=body.email)
+        is_verified: bool=verify_password(body.password,user.hashed_password)
+        if is_verified:
+            
+        else:
             return False

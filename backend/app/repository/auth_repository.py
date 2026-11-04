@@ -24,12 +24,12 @@ class UserRepository:
         self.db.refresh()
         return user
 
-    def get_user_by_email(self, email: EmailStr):
+    def get_user_by_email(self, email: EmailStr) -> UserModel:
         statement = select(UserModel).where(UserModel.email == email)
         user = self.db.execute(statement=statement).scalar_one_or_none()
         return user
 
-    def get_user_by_id(self, user_id: UUID): ...
+    def get_user_by_id(self, user_id: UUID) -> UserModel: ...
 
     def get_all_existing_users(self):
         statement = select(UserModel)
