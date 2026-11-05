@@ -8,6 +8,7 @@ class LoginRequestSchema(BaseModel):
 
 class LoginResponseSchema(BaseModel):
     user_id: str
+    token_type: str
     access_token: str
     refresh_token: str
 

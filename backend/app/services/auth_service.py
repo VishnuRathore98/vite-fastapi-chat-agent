@@ -57,11 +57,17 @@ class UserService:
             logger.error(e)
             return False
 
-    def login_user(self, body: LoginRequestSchema) -> LoginResponseSchema|bool:
+    def login_user(self, body: LoginRequestSchema) -> LoginResponseSchema | bool:
         repo = UserRepository(self.db)
         user: UserModel = repo.get_user_by_email(email=body.email)
-        is_verified: bool=verify_password(body.password,user.hashed_password)
+        is_verified: bool = verify_password(body.password, user.hashed_password)
         if is_verified:
-            
+            access_token = ""
+            refresh_token = ""
+            return LoginResponseSchema(
+                user_id=user.user_id,
+                access_token=access_token,
+                refresh_token=refresh_token,
+            )
         else:
             return False
