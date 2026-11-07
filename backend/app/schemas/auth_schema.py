@@ -4,7 +4,7 @@ from pydantic import BaseModel, EmailStr, Field
 class Token(BaseModel):
     sub: str
     name: str
-    exp: str
+    exp: int
 
 
 class LoginRequestSchema(BaseModel):

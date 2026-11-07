@@ -32,11 +32,12 @@ async def login(
         return APIResponse(
             success=True,
             message="Login Successful!",
-            data=LoginResponseSchema(
-                user_id=res.user_id,
-                access_token=res.access_token,
-                refresh_token=res.refresh_token,
-            ),
+            data=[
+                LoginResponseSchema(
+                    access_token=res.access_token,
+                    refresh_token=res.refresh_token,
+                ).model_dump()
+            ],
         )
     except Exception as e:
         response.status_code = status.HTTP_404_NOT_FOUND

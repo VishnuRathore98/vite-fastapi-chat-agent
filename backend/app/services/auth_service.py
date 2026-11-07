@@ -3,7 +3,7 @@ from app.utils.security import create_refresh_token
 from app.utils.security import create_access_token
 from app.utils.security import verify_password
 from app.schemas.auth_schema import LoginResponseSchema
-from app.schemas.auth_schema import LoginRequestSchema
+from app.schemas.auth_schema import LoginRequestSchema, Token
 from uuid import UUID
 
 from pydantic import EmailStr
@@ -66,11 +66,11 @@ class UserService:
         is_verified: bool = verify_password(body.password, user.hashed_password)
         if is_verified:
             access_token = create_access_token(
-                body={
-                    "sub": user.user_id,
-                    "name": user.full_name,
-                    "exp": settings.ACCESS_TOKEN_EXPIRY_MINUTES,
-                }
+                token_body=Token(
+                    sub=str(user.user_id),
+                    name=user.full_name,
+                    exp=settings.ACCESS_TOKEN_EXPIRY_MINUTES,
+                )
             )
             refresh_token = create_refresh_token()
             return LoginResponseSchema(

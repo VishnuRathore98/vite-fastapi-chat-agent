@@ -1,6 +1,6 @@
-from datetime import timedelta
-from datetime import timezone
-from datetime import datetime
+from fastapi import HTTPException
+from datetime import datetime, timedelta, timezone
+
 import jwt
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jwt.exceptions import InvalidTokenError
@@ -23,12 +23,19 @@ def verify_password(password: str, hash: str) -> bool:
     return verified
 
 
-def create_access_token(body: Token) -> str:
-    to_encode = body.model_copy()
-    expiry = datetime.now(timezone.utc) + timedelta(minutes=body.exp)
-    to_encode.update
-    access_token = ""
-    return access_token
+def create_access_token(token_body: Token) -> str:
+    try:
+        print("name: ", type(token_body))
+        expiry = datetime.now(timezone.utc) + timedelta(minutes=token_body.exp)
+        token_body.exp = expiry
+        access_token = jwt.encode(
+            payload=token_body.model_dump(),
+            key=settings.JWT_SECRET,
+            algorithm=settings.ALGORITHM,
+        )
+        return access_token
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=f"Failed with {e}")
 
 
 def create_refresh_token() -> str:
